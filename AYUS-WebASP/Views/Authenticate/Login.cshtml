@@ -1,0 +1,118 @@
+﻿@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYUS Admin</title>
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <div class="successModal  hidden changeZIndex">
+        <div>
+            <img class="info" src="~/img/success (1).png">
+            <p>Account successfully created</p>
+            <button class="okayBtn">Okay</button>
+        </div>
+    </div>
+    <div id="registerModal" class="registerModal hidden changeZIndex">
+
+        <section class="topSection">
+            <p>Create your account</p>
+            <button id="closeModal">X</button>
+            <hr />
+        </section>
+        <section class="bottomSection">
+            <div class="leftside">
+                <form>
+                    <div>
+                        <label>Username</label>
+                        <input type="text" placeholder="Username">
+                    </div>
+                    <div>
+                        <label>Password</label>
+                        <input type="password" placeholder="Password">
+                    </div>
+                    <div>
+                        <label>Confirm Password</label>
+                        <input type="password" placeholder="Confirm password">
+                    </div>
+                </form>
+            </div>
+            <div class="rightside">
+                <form>
+                    <div>
+                        <label>Fullname</label>
+                        <input type="text" placeholder="Lastname, Firstname">
+                    </div>
+                    <div>
+                        <label>Address</label>
+                        <input type="text" placeholder="Address">
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        <input type="email" placeholder="Email Address">
+                    </div>
+                    <div>
+                        <label>Contact Number</label>
+                        <input type="number" placeholder="Contact Number">
+                    </div>
+                </form>
+            </div>
+        </section>
+        <button id="signUpBtn" class="signUpBtn" type="button">Sign up</button>
+    </div>
+    <div id="main-container" class="container">
+        <div class="cards">
+            <div class="card-1">
+                <div>
+                    <img loading="lazy" src="~/img/logo.png" />
+                    <form>
+                        <div>
+                            <input type="text" placeholder="username">
+                        </div>
+                        <div>
+                            <input type="password" placeholder="password">
+                        </div>
+                        <div class="resetPw">
+                            <label><input type="checkbox"> Remember me</label><a>Forgot your password?</a>
+                        </div>
+                        <div>
+                            <button class="loginBtn" type="button">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-2">
+                <div>
+                    <h1>Don't have an account yet?</h1>
+                    <p>Click the sign up button and enter your personal details to get started</p>
+                    <button id="registerButton" class="registerBtn">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        All rights reserved (2023)
+    </footer>
+
+    <script>
+        document.querySelector('#registerButton').addEventListener('click', (e) => {
+            document.querySelector('#registerModal').classList.remove('hidden');
+            document.querySelector('#registerModal').classList.remove('changeZIndex');
+            document.querySelector('#main-container').classList.add('blurEffect');
+        });
+        document.querySelector('#closeModal').addEventListener('click', (e) => {
+            setTimeout(()=>{
+                document.querySelector('#registerModal').classList.add('changeZIndex');
+            }, 500);
+            document.querySelector('#registerModal').classList.add('hidden');
+            document.querySelector('#main-container').classList.remove('blurEffect');
+        });
+    </script>
+</body>
+</html>
