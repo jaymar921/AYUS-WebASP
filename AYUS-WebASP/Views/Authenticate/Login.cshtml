@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AuthenticateModel
+@{
     Layout = "";
 }
 <!DOCTYPE html>
@@ -31,15 +32,15 @@
                 <form>
                     <div>
                         <label>Username</label>
-                        <input type="text" placeholder="Username">
+                        <input id="reg_user" type="text" placeholder="Username">
                     </div>
                     <div>
                         <label>Password</label>
-                        <input type="password" placeholder="Password">
+                        <input id="reg_pass" type="password" placeholder="Password">
                     </div>
                     <div>
                         <label>Confirm Password</label>
-                        <input type="password" placeholder="Confirm password">
+                        <input id="reg_pass_confirm" type="password" placeholder="Confirm password">
                     </div>
                 </form>
             </div>
@@ -47,51 +48,62 @@
                 <form>
                     <div>
                         <label>Fullname</label>
-                        <input type="text" placeholder="Lastname, Firstname">
+                        <input id="reg_fullname" type="text" placeholder="Lastname, Firstname">
                     </div>
                     <div>
                         <label>Address</label>
-                        <input type="text" placeholder="Address">
+                        <input id="reg_address" type="text" placeholder="Address">
                     </div>
                     <div>
                         <label>Email</label>
-                        <input type="email" placeholder="Email Address">
+                        <input id="reg_email" type="email" placeholder="Email Address" pattern="[a-z0-9._%+-]+@@[a-z0-9.-]+\.[a-z]{2,4}$">
                     </div>
                     <div>
                         <label>Contact Number</label>
-                        <input type="number" placeholder="Contact Number">
+                        <input id="reg_contact" type="number" placeholder="Contact Number">
                     </div>
                 </form>
             </div>
         </section>
-        <button id="signUpBtn" class="signUpBtn" type="button">Sign up</button>
+        <button onclick="registerNewAccount()" class="signUpBtn" type="button">Sign up</button>
     </div>
     <div id="main-container" class="container">
         <div class="cards">
             <div class="card-1">
                 <div>
                     <img loading="lazy" src="~/img/logo.png" />
-                    <form>
+                    <form method="post" asp-route="Login">
                         <div>
-                            <input type="text" placeholder="username">
+                            <input asp-for="Username" type="text" placeholder="username" required>
                         </div>
                         <div>
-                            <input type="password" placeholder="password">
+                            <input asp-for="Password" type="password" placeholder="password" required>
                         </div>
                         <div class="resetPw">
-                            <label><input type="checkbox"> Remember me</label><a>Forgot your password?</a>
+                            <label><input asp-for="remember" type="checkbox"> Remember me</label><a>Forgot your password?</a>
                         </div>
                         <div>
-                            <button class="loginBtn" type="button">Login</button>
+                            <button class="loginBtn" type="submit">Login</button>
+                        </div>
+                        <div>
+                            <p style="position:absolute;text-align:center; left:50%;transform:translateX(-50%)">@TempData["Message"]</p>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="card-2">
                 <div>
-                    <h1>Don't have an account yet?</h1>
-                    <p>Click the sign up button and enter your personal details to get started</p>
-                    <button id="registerButton" class="registerBtn">Sign Up</button>
+                    @{
+                        if (Model.allowSignUp)
+                        {
+                            <h1>Don't have an account yet?</h1>
+                            <p>Click the sign up button and enter your personal details to get started</p>
+                            <button id="registerButton" class="registerBtn">Sign Up</button>
+                        }else{
+                            <h1>Don't have an account yet?</h1>
+                            <p>Contact administration to allow sign up as a new admin</p>
+                        }
+                    }
                 </div>
             </div>
         </div>
@@ -99,20 +111,112 @@
     <footer>
         All rights reserved (2023)
     </footer>
-
     <script>
         document.querySelector('#registerButton').addEventListener('click', (e) => {
-            document.querySelector('#registerModal').classList.remove('hidden');
-            document.querySelector('#registerModal').classList.remove('changeZIndex');
-            document.querySelector('#main-container').classList.add('blurEffect');
+        document.querySelector('#registerModal').classList.remove('hidden');
+        document.querySelector('#registerModal').classList.remove('changeZIndex');
+        document.querySelector('#main-container').classList.add('blurEffect');
         });
         document.querySelector('#closeModal').addEventListener('click', (e) => {
-            setTimeout(()=>{
-                document.querySelector('#registerModal').classList.add('changeZIndex');
-            }, 500);
-            document.querySelector('#registerModal').classList.add('hidden');
-            document.querySelector('#main-container').classList.remove('blurEffect');
+        setTimeout(()=>{
+        document.querySelector('#registerModal').classList.add('changeZIndex');
+        }, 500);
+        document.querySelector('#registerModal').classList.add('hidden');
+        document.querySelector('#main-container').classList.remove('blurEffect');
         });
     </script>
+    @if (Model.allowSignUp)
+    {
+        <script>
+            function registerNewAccount() {
+                const username = document.getElementById('reg_user').value;
+                const password = document.getElementById('reg_pass').value;
+                const confirm_password = document.getElementById('reg_pass_confirm').value;
+                const fullname = document.getElementById('reg_fullname').value.split(',');
+                const address = document.getElementById('reg_address').value;
+                const email = document.getElementById('reg_email').value;
+                const contact = document.getElementById('reg_contact').value;
+
+                // validate password
+                if (password !== confirm_password) {
+                    alert("Password and Confirm password mismatch!");
+                    return;
+                }
+                let lastname = fullname[0];
+                let firstname = '';
+                if (fullname.length == 1) {
+                    let fname = fullname[0].split(' ');
+
+                    lastname = fname[fname.length - 1];
+                    fname.forEach(n => {
+                        if (n !== lastname) {
+                            firstname += n + ' ';
+                        }
+                    })
+                } else {
+                    fullname.forEach(n => {
+                        if (n !== lastname) {
+                            firstname += n + ' ';
+                        }
+                    })
+                }
+
+                const data = {
+                    "personalInformation": {
+                        "Firstname": firstname,
+                        "Lastname": lastname,
+                        "Contact": contact,
+                        "Birthdate": new Date().toISOString(),
+                        "Address": address,
+                        "LicenseNumber": "N/A",
+                        "Expiry": new Date().toISOString()
+                    },
+                    "credential": {
+                        "Username": username,
+                        "Password": password,
+                        "Email": email
+                    },
+                    "wallet": {
+                        "Balance": 0,
+                        "Pincode": ""
+                    },
+                    "accountStatus": {
+                        "Shop": null,
+                        "Role": "ADMIN",
+                        "rating": 0,
+                        "isDeleted": false,
+                        "isLocked": false,
+                        "isOnline": false
+                    }
+                }
+
+                console.log(JSON.stringify(data))
+
+                // send request to the server
+                fetch('@Model.apiUrl/api/Account', {
+                    method: "POST",
+                    headers: {
+                        "AYUS-API-KEY": "@Model.apikey",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                }).then(r => r.json())
+                    .then(d => {
+                        console.log(d);
+                        alert(JSON.stringify(d));
+
+                        if (d.status === 201) {
+                            setTimeout(() => {
+                                document.querySelector('#registerModal').classList.add('changeZIndex');
+                            }, 500);
+                            document.querySelector('#registerModal').classList.add('hidden');
+                            document.querySelector('#main-container').classList.remove('blurEffect');
+                        }
+
+                    })
+                    .catch(e => alert(e))
+            }
+        </script>
+    }
 </body>
 </html>

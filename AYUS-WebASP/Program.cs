@@ -1,3 +1,6 @@
+using AYUS_WebASP.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace AYUS_WebASP
 {
     public class Program
@@ -8,6 +11,18 @@ namespace AYUS_WebASP
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSingleton<DataRepository>();
+
+
+            // responsible for redirecting admins that have not logged in yet
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                options =>
+                {
+                    options.LoginPath = new PathString("/Authenticate/login");
+                });
+
+
 
             var app = builder.Build();
 
@@ -23,6 +38,9 @@ namespace AYUS_WebASP
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // responsible for adding authentication
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
