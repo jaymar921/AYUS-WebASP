@@ -1,8 +1,516 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using System.Security.Claims
+@{
+    Layout = "";
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
+    string? name = null;
+    if (claimsIdentity != null)
+    {
+        if (claimsIdentity.Claims != null)
+            name = claimsIdentity.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+    }
+    var nameOfUser = name != null ? name : "User";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="~/css/homesyle.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/55a8472328.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
+</head>
+<body>
+    <div id="user_detail_modal" class="modal hidden">
+        <div class="client_info">
+            <br />
+            <section class="tab-btns">
+                <button onclick="closeWindow(document.getElementById('user_detail_modal'))"><i class="fa-solid fa-xmark"></i></button>
+            </section>
+            <section class="profile">
+                <h3 class="center">User Details</h3>
+                <div class="flex">
+                    <div class="w132">
+                        <img src="https://placehold.co/128x128">
+                        <p class="center">CLIENT</p>
+                        <p class="center"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></p>
+                    </div>
+                    <div class="wmax">
+                        <div class="aligned">
+                            <p>Fullname</p>
+                            <p>Jayharron Mar Abejar</p>
+                        </div>
+                        <div class="aligned">
+                            <p>Contact</p>
+                            <p>09123456789</p>
+                        </div>
+                        <div class="aligned">
+                            <p>Address</p>
+                            <p>Talisay City, Cebu</p>
+                        </div>
+                        <div class="aligned">
+                            <p>Email</p>
+                            <p>jayabejar@testmail.com</p>
+                        </div>
+                        <div class="aligned">
+                            <p>License</p>
+                            <p>G00-00-000000 [EXPIRED]</p>
+                        </div>
+                        <div class="aligned">
+                            <p>Status</p>
+                            <p>OK</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="profile-btns">
+                        <button><i class="fa-solid fa-id-card"></i> View License</button>
+                        <button><i class="fa-solid fa-lock"></i> Restrict Account</button>
+                    </div>
+                    <div class="profile-btns">
+                        <button><i class="fa-solid fa-pen-nib"></i> Request for update</button>
+                        <button><i class="fa-solid fa-trash"></i> Remove Account</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div id="admin-ui" class="admin">
+        <div class="menu">
+            <div class="menu-header">
+                <img class="logo" src="~/img/ayus icon.png">
+                <div>
+                    <h1>AYUS</h1>
+                    <p>Administration</p>
+                </div>
+            </div>
+            <div class="user">
+                <h1>@nameOfUser.ToUpper()</h1>
+                <p>Admin</p>
+            </div>
+            <div class="menu-buttons">
+                <div>
+                    <button id="accounts" onclick="menu('accounts')"><i class="fa-solid fa-user"></i> Accounts</button>
+                </div>
+                <div>
+                    <button id="mechanics" onclick="menu('mechanics')"><i class="fa-sharp fa-solid fa-bell"></i> Mechanics</button>
+                </div>
+                <div>
+                    <button id="notifications" onclick="menu('notifications')"><i class="fa-sharp fa-solid fa-bell"></i> Notifications</button>
+                </div>
+                <div>
+                    <button id="billing" onclick="menu('billing')"><i class="fa-solid fa-dollar-sign"></i> Billing</button>
+                </div>
+                <div>
+                    <button id="wallet" onclick="menu('wallet')"><i class="fa-solid fa-wallet"></i> Wallet</button>
+                </div>
+                <div>
+                    <button id="history" onclick="menu('history')"><i class="fa-sharp fa-solid fa-receipt"></i> History</button>
+                </div>
+            </div>
+            <div class="menu-bottom-buttons">
+                <button onclick="location.href='/Authenticate/Logout'"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
+        </div>
+
+        <div id="dashboard" class="dashboard"></div>
+
+        <!-- ACCOUNTS DASHBOARD -->
+        <div id="accounts-dashboard" class="dashboard hidden">
+            <h2 class="dashboard_title">Accounts Dashboard</h2>
+            <div class="accounts_ui">
+                <br>
+                <div class="search_bar">
+                    <p>Enable Admin Registration</p>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <p>|</p>
+                    <input type="search" placeholder="Search 🔎">
+                </div>
+                <br>
+                <br>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Role</th>
+                            <th>Rating</th>
+                            <th><i class="fa-solid fa-globe"></i> Online</th>
+                            <th><i class="fa-solid fa-lock"></i> Restricted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Jayharron Mar Abejar</td>
+                            <td>ADMIN</td>
+                            <td><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></td>
+                            <td><i class="fa-solid fa-check"></i></td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Harold Cuico</td>
+                            <td>MECHANIC</td>
+                            <td><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></td>
+                            <td><i class="fa-solid fa-xmark"></i></td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Rey de los Reyes</td>
+                            <td>MECHANIC</td>
+                            <td><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></td>
+                            <td><i class="fa-solid fa-check"></i></td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Trisha Ann Cempron</td>
+                            <td>CLIENT</td>
+                            <td><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></td>
+                            <td><i class="fa-solid fa-xmark"></i></td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Pia Abellana</td>
+                            <td>CLIENT</td>
+                            <td><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></td>
+                            <td><i class="fa-solid fa-check"></i></td>
+                            <td>No</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <h2 class="dashboard_title">Reports</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Complainer</th>
+                            <th>Complainee</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>98346</td>
+                            <td>Pia Abellana</td>
+                            <td>Jayharron Mar Abejar</td>
+                            <td>Wallet issue, not working</td>
+                            <td>Pending</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br><br>
+            </div>
+        </div>
+
+
+        <!-- MECHANICS DASHBOARD -->
+        <div id="mechanics-dashboard" class="dashboard hidden">
+            <h2 class="dashboard_title">Mechanics Dashboard</h2>
+            <div class="accounts_ui">
+                <br>
+                <div class="search_bar">
+                    <input type="search" placeholder="Search 🔎">
+                </div>
+                <br>
+                <h2 class="dashboard_title">Available Mechanics</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Location</th>
+                            <th>Rating</th>
+                            <th><i class="fa-solid fa-globe"></i> Online</th>
+                            <th><i class="fa-solid fa-lock"></i> Restricted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Harold Cuico</td>
+                            <td>Cebu City</td>
+                            <td><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></td>
+                            <td><i class="fa-solid fa-check"></i></td>
+                            <td>No</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <h2 class="dashboard_title">Mechanic Map</h2>
+                <div id="map"></div>
+
+                <br><br>
+            </div>
+        </div>
+
+        <!-- NOTIFICATION DASHBOARD -->
+        <div id="notifications-dashboard" class="dashboard hidden">
+            <h2 class="dashboard_title">Notifications Dashboard</h2>
+            <div class="accounts_ui">
+                <br>
+                <div class="search_bar">
+                    <input type="search" placeholder="Search 🔎">
+                </div>
+                <br>
+                <div class="dashboard-flex">
+                    <div>
+                        <h2 class="center">Booking Requests</h2>
+
+                        <!-- BOOKING REQUESTS -->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>CLIENT</th>
+                                    <th>MECHANIC</th>
+                                    <th>SERVICE</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Trisha Ann Cempron</td>
+                                    <td>Harold Cuico</td>
+                                    <td>Tire Replacement</td>
+                                    <td>Pending</td>
+                                </tr>
+                                <tr>
+                                    <td>Jayharron Mar Abejar</td>
+                                    <td>Rey de los Reyes</td>
+                                    <td>Battery Jumpstart</td>
+                                    <td>Pending</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h2 class="center">Completed Requests</h2>
+                        <!-- COMPLETED REQUESTS -->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>CLIENT</th>
+                                    <th>MECHANIC</th>
+                                    <th>SERVICE</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Trisha Ann Cempron</td>
+                                    <td>Harold Cuico</td>
+                                    <td>Tire Replacement</td>
+                                    <td>Done</td>
+                                </tr>
+                                <tr>
+                                    <td>Jayharron Mar Abejar</td>
+                                    <td>Rey de los Reyes</td>
+                                    <td>Battery Jumpstart</td>
+                                    <td>Done</td>
+                                </tr>
+                                <tr>
+                                    <td>Jayharron Mar Abejar</td>
+                                    <td>Rey de los Reyes</td>
+                                    <td>Battery Jumpstart</td>
+                                    <td>Done</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <br><br>
+            </div>
+        </div>
+
+        <!-- BILLING DASHBOARD -->
+        <div id="billing-dashboard" class="dashboard hidden">
+            <h2 class="dashboard_title">Billing Dashboard</h2>
+            <div class="accounts_ui">
+                <br>
+                <div class="search_bar">
+                    <input type="search" placeholder="Search 🔎">
+                </div>
+                <br>
+
+                <!-- BOOKING REQUESTS -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>MECHANIC</th>
+                            <th>SHOP</th>
+                            <th>DATE</th>
+                            <th>FEE</th>
+                            <th>REMARK</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Harold Cuico</td>
+                            <td>Harold Shopee</td>
+                            <td>April 5, 2023</td>
+                            <td>P25</td>
+                            <td>SERVICE COMPLETED</td>
+                        </tr>
+                        <tr>
+                            <td>Harold Cuico</td>
+                            <td>Harold Shopee</td>
+                            <td>April 4, 2023</td>
+                            <td>P25</td>
+                            <td>SERVICE COMPLETED</td>
+                        </tr>
+                        <tr>
+                            <td>Harold Cuico</td>
+                            <td>Harold Shopee</td>
+                            <td>April 3, 2023</td>
+                            <td>P25</td>
+                            <td>SERVICE COMPLETED</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2 class="dashboard_title">Update Service Rate</h2>
+                <div class="search_bar">
+                    <input type="number" placeholder="Price" value="25">
+                    <button class="btn-bluish">Update</button>
+                </div>
+
+                <br><br>
+            </div>
+        </div>
+
+        <!-- WALLET DASHBOARD -->
+        <div id="wallet-dashboard" class="dashboard hidden">
+            <h2 class="dashboard_title">Wallet Dashboard</h2>
+            <div class="accounts_ui">
+                <br>
+                <div class="search_bar">
+                    <input type="search" placeholder="Search 🔎">
+                </div>
+                <br>
+
+                <!-- BOOKING REQUESTS -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>USER</th>
+                            <th>ROLE</th>
+                            <th>BALANCE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Jayharron Mar Abejar</td>
+                            <td>ADMIN</td>
+                            <td>P120</td>
+                        </tr>
+                        <tr>
+                            <td>Harold Cuico</td>
+                            <td>MECHANIC</td>
+                            <td>P350</td>
+                        </tr>
+                        <tr>
+                            <td>Rey de los Reyes</td>
+                            <td>MECHANIC</td>
+                            <td>P220</td>
+                        </tr>
+                        <tr>
+                            <td>Trisha Ann Cempron</td>
+                            <td>CLIENT</td>
+                            <td>P250</td>
+                        </tr>
+                        <tr>
+                            <td>Pia Abellana</td>
+                            <td>CLIENT</td>
+                            <td>P520</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2 class="dashboard_title">click a user for action</h2>
+
+                <br><br>
+            </div>
+        </div>
+
+
+        <!-- HISTORY DASHBOARD -->
+        <div id="history-dashboard" class="dashboard hidden">
+            <h2 class="dashboard_title">History Dashboard</h2>
+            <div class="accounts_ui">
+                <br>
+                <div class="search_bar">
+                    <input type="search" placeholder="Search 🔎">
+                </div>
+                <br>
+
+                <!-- BOOKING REQUESTS -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>DATE</th>
+                            <th>INFO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>3</td>
+                            <td>4/2/2023</td>
+                            <td>User 'Harold' has logged in</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>4/2/2023</td>
+                            <td>A service request has been called</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>4/2/2023</td>
+                            <td>User 'Jayharron' has logged in</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br><br>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="bottom-right">
+        <h4>Server status: Online</h4>
+    </div>
+    <script defer src="~/js/homejs.js"></script>
+    <script>
+        let leafletMap = null;
+        const loadMap = () => {
+            var leafletMap = L.map('map', { zoomControl: false }).setView([10.296798, 123.897499], 12);
+            leafletMap.dragging.disable();
+            // leafletMap.doubleClickZoom.disable();
+            // leafletMap.scrollWheelZoom.disable();
+            // leafletMap.boxZoom.disable();
+            // leafletMap.keyboard.disable();
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+            }).addTo(leafletMap);
+        }
+
+        loadMap();
+    </script>
+</body>
+</html>

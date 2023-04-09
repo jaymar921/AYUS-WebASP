@@ -1,0 +1,448 @@
+:root{
+    --shady_white: rgb(253, 253, 253);
+    --shady_white_darker: rgb(243, 243, 243);
+    --light_steel_blue: #d2e1e6;
+    --seagull: #78aed3;
+    --san_marino: #4f77aa;
+    --purple: #7380ec;
+    --color_light: #cdd2fc;
+    --darken: rgba(0,0,0,0.1);
+}
+body{
+    margin: 0;
+    font-family: inter;
+}
+
+button:hover{
+    cursor: pointer;
+}
+button{
+    font-size: 18px;
+    border: 0;
+    background-color: var(--shady_white_darker);
+}
+
+
+.admin{
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--shady_white);
+    overflow: hidden;
+}
+
+.menu{
+    position: absolute;
+    width: 300px;
+    height: 100vh;
+    background-color: var(--shady_white_darker);
+}
+
+.user{
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.user h1,p{
+    margin: 0;
+}
+
+.menu .menu-header{
+    position: relative;
+    display: flex;
+    width: fit-content;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.menu .menu-header div{
+    padding-left: 10px;
+}
+
+.menu .menu-header div h1{
+    font-size: 35px;
+    padding: 0;
+    margin: 0;
+}
+
+.menu .menu-header div p{
+    font-weight: 900;
+    padding: 0;
+    margin: 0;
+}
+
+.logo{
+    width: 70px;
+    height: 60px;
+}
+
+.menu .menu-buttons div{
+    position: relative;
+    display: block;
+}
+
+.menu .menu-buttons div button{
+    width: 100%;
+    height: 60px;
+    transition: all 1000ms ease;
+}
+
+.menu .menu-buttons div button.active{
+    background-color: var(--color_light);
+    margin-left: 20px;
+    color: rgb(81, 67, 116);
+}
+
+
+.menu .menu-buttons div button.active:before{
+    position: absolute;
+    content: '';
+    width:  20px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: var(--purple);
+    transition: all 1000ms ease;
+}
+
+.menu .menu-buttons div button:hover{
+    margin-left: 20px;
+    color: grey;
+}
+
+.menu .menu-buttons div button.active:hover{
+    margin-left: 20px;
+    color: rgb(88, 88, 88);
+}
+
+
+
+
+
+
+
+
+.menu .menu-bottom-buttons{
+    position: absolute;
+    display: block;
+    width: 100%;
+    bottom: 0;
+}
+
+
+.menu .menu-bottom-buttons button{
+    width: 100%;
+    height: 50px;
+    background-color: rgb(221, 115, 115);
+}
+
+/*
+ =======================================================
+    DASHBOARD 
+ =======================================================
+*/
+
+.dashboard{
+    position: fixed;
+    min-width: 700px;
+    width: 80%;
+    height: 100vh;
+    background-color: var(--shady_white);
+    left: 300px;
+    overflow-y: scroll;
+}
+
+.dashboard_title{
+    text-align: center;
+} 
+.search_bar{
+    position: relative;
+    width: fit-content;
+    margin: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.accounts_ui{
+    position: absolute;
+    width: 100%;
+}
+
+.search_bar input, p{
+    font-size: 18px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.search_bar input{
+    outline: none;
+    border-radius: 5px;
+}
+
+table, #map{
+    position: relative;
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-collapse: collapse;
+    border-radius: 20px;
+    box-shadow: 1px 5px 5px 2px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+#map{
+    height: 300px;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+table thead tr th, table tbody tr td{
+    text-align: center;
+}
+
+table thead{
+    height: 50px;
+    background-color: var(--color_light);
+}
+
+table tbody{
+    position: relative;
+}
+
+table tbody tr td{
+    padding: 5px;
+}
+
+table tbody tr{
+    position: relative;
+    height: 50px;
+    max-height: 20px;
+    width: 100%;
+    overflow: hidden;
+}
+table tbody tr:hover{
+    background-color: var(--purple);
+    cursor: pointer;
+}
+
+
+/*
+    MODALS
+*/
+
+.modal{
+    position: absolute;
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.2);
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.client_info{
+    width: 500px;
+    height: fit-content;
+    background-color: var(--shady_white);
+}
+
+.tab-btns{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.tab-btns button:hover{
+    background-color: var(--darken);
+    cursor: pointer;
+}
+
+.aligned{
+    position: relative;
+    display: flex;
+    width: 95%;
+    padding: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+.aligned p:nth-child(odd){
+    width: 100%;
+    max-width: 100px;
+    text-align: left;
+    font-weight: 900;
+}
+
+.aligned p:nth-child(even){
+    width: 100%;
+    text-align: left;
+}
+
+.aligned p{
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+}
+
+.profile .flex{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.profile .flex div{ 
+    padding: 10px;
+}
+
+.w132{
+    width: 132px;
+}
+
+.wmax{
+    width: 100%;
+}
+
+.center{
+    width: 100%;
+    text-align: center;
+    align-items: center;
+}
+
+.profile-btns{
+    position: relative;
+    display: block;
+    width: 50%;
+    align-items: center;
+}
+
+.profile-btns button{
+    font-size: 15px;
+    position: relative;
+    width: 180px;
+    height: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 200ms ease-in;
+}
+
+.profile-btns button:hover{
+    font-size: 17px;
+    background-color: var(--darken);
+}
+
+.dashboard-flex{
+    width: 100%;
+    display: flex;
+}
+
+.dashboard-flex div{
+    width: 100%;
+}
+
+.btn-bluish{
+    background-color: var(--seagull);
+    width: 200px;
+    height: 100%;
+    padding: 8px;
+    border-radius: 3px;
+    transition: all 1000ms ease;
+    color: black;
+}
+
+.btn-bluish:hover{
+    background-color: var(--san_marino);
+}
+
+/*
+    UTILITY
+*/
+.blur{
+    filter: blur(2px);
+}
+.hidden{
+    z-index: -1;
+    opacity: 0;
+}
+/*
+    w3schools
+*/
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/*
+    BOTTOM FOOTER
+*/
+.bottom-right{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 180px;
+    height: 50px;
+}

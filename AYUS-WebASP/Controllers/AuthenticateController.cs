@@ -81,7 +81,7 @@ namespace AYUS_WebASP.Controllers
             }
 
             data.TryGetValue("Role", out string? role);
-            data.TryGetValue("Firstname", out string? firstname);
+            data.TryGetValue("Lastname", out string? name);
 
             if (status.Equals("404") || role == null)
             {
@@ -99,7 +99,7 @@ namespace AYUS_WebASP.Controllers
             // creating the user claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, firstname ?? account.Username),
+                new Claim(ClaimTypes.NameIdentifier, name ?? account.Username),
                 new Claim(ClaimTypes.Name, account.Username),
                 new Claim(ClaimTypes.Role, "ADMIN")
             };
