@@ -158,6 +158,7 @@ button {
     background-color: var(--shady_white);
     left: 300px;
     overflow-y: scroll;
+    z-index: 1;
 }
 
 .dashboard_title {
@@ -247,13 +248,15 @@ table tbody {
 
 .modal {
     position: absolute;
-    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.2);
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.5);
     left: 50%;
     top: 50%;
     z-index: 1;
     transform: translate(-50%, -50%);
     border-radius: 5px;
     overflow: hidden;
+    background-color: var(--color_light);
+    z-index: 2;
 }
 
 .client_info {
@@ -266,6 +269,8 @@ table tbody {
     position: absolute;
     right: 0;
     top: 0;
+    z-index: 2;
+
 }
 
     .tab-btns button:hover {

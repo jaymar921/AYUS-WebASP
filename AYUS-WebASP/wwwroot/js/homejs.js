@@ -53,8 +53,10 @@ const loadScript = () => {
     loadBilling();
     loadWallets();
     loadHistory();
+    loadAllowAdmin();
 
 }
+
 
 /*
     Accounts Dashboard
@@ -72,6 +74,7 @@ const loadAccounts = () => {
 }
 
 const callAccountsAPI = () => {
+
     fetch(apiurl + "/api/Account", {
         method: 'GET',
         headers: {
@@ -87,6 +90,9 @@ const callAccountsAPI = () => {
 }
 
 const callReportAPI = () => {
+    if (currentWindow !== '' && currentWindow !== 'accounts')
+        return;
+
     fetch(apiurl + "/api/Account/Report", {
         method: 'GET',
         headers: {
@@ -205,6 +211,7 @@ const updateReportsTable = () => {
     })
 }
 
+let tempuserID;
 const loadAccountModal = (userid) => {
     const modal = document.getElementById('user_detail_modal');
 
@@ -219,6 +226,8 @@ const loadAccountModal = (userid) => {
     const role = document.getElementById('account-modal-role');
     const rating = document.getElementById('account-modal-rating');
     const image = document.getElementById('account-modal-photo');
+
+    tempuserID = userid;
 
     const user_data = account_data.filter(a => a.personalInformation.UUID === userid)[0];
 

@@ -3,6 +3,7 @@ using AYUS_WebASP.Data;
 using AYUS_WebASP.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -12,11 +13,14 @@ namespace AYUS_WebASP.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly WEBConfig _webConfig;
+        private readonly DataRepository _dataRepository;
+        JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
 
-        public HomeController(ILogger<HomeController> logger, WEBConfig wEBConfig)
+        public HomeController(ILogger<HomeController> logger, WEBConfig wEBConfig, DataRepository dataRepository)
         {
             _logger = logger;
             _webConfig = wEBConfig;
+            _dataRepository = dataRepository;
         }
 
         [Authorize]
@@ -41,8 +45,7 @@ namespace AYUS_WebASP.Controllers
         [Route("SendMail")]
         public JsonResult SendMail([FromBody]EmailModel emailModel)
         {
-            JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
-
+            
             _logger.LogInformation("Email API was called with info => "+emailModel);
             Console.WriteLine(emailModel.Email);
             Console.WriteLine(emailModel.Body);
@@ -53,6 +56,23 @@ namespace AYUS_WebASP.Controllers
             if (MailSender.SendMail(emailModel.Email, emailModel.Subject, emailModel.Body, _webConfig.EmailSender_Email, _webConfig.EmailSender_Password)) 
                 return Json(new { Status = 200, Message = "Email was sent" }, options);
             return Json(new { Status = 400, Message = "Error" }, options);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("admin/AllowAdmins")]
+        public JsonResult AllowAdmins()
+        {
+            return Json(new { Status = 200, Message = "Success", AllowAdmin=_dataRepository.AllowSignup }, options);
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("admin/AllowAdmins")]
+        public JsonResult AllowAdmins(bool allowAdmin)
+        {
+            _dataRepository.AllowSignup = allowAdmin;
+            return Json(new { Status = 201, Message = "Success", AllowAdmin = _dataRepository.AllowSignup }, options);
         }
     }
 }

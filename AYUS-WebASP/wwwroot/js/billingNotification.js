@@ -7,6 +7,8 @@ const loadBilling = () => {
 }
 
 const callAPIBilling = () => {
+	if (currentWindow !== '' && currentWindow !== 'billing')
+		return;
 	const mechanics = account_data.filter(a => a.accountStatus.Role.toLowerCase().includes('mechanic'));
 
 	mechanics.forEach(m => {

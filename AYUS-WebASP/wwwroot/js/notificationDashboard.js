@@ -49,6 +49,8 @@ const updateRequestTable = () => {
 }
 
 const loadNotifAPI = () => {
+	if (currentWindow !== '' && currentWindow !== 'notifications')
+		return;
     const mechanics = account_data.filter(a => a.accountStatus.Role.toLowerCase().includes('mechanic'));
     mechanics.forEach(m => {
 		fetch(apiurl + "/api/ServiceRequest", {
@@ -108,6 +110,8 @@ const updateCompletedTable = () => {
 }
 
 const loadNotifCompletedAPI = () => {
+	if (currentWindow !== '' && currentWindow !== 'notifications')
+		return;
 	const mechanics = account_data.filter(a => a.accountStatus.Role.toLowerCase().includes('mechanic'));
 
 	mechanics.forEach(m => {

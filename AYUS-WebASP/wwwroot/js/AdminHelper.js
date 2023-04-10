@@ -13,6 +13,7 @@ const openEmailModal = (emailElementID, recepient, subject) => {
 }
 
 const SendEmailAPI = () => {
+    document.querySelector('#sendMail-btn').disabled = true;
     fetch("/SendMail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -25,7 +26,11 @@ const SendEmailAPI = () => {
         .then(d => {
             if (d.Status === 200) {
                 closeWindow(document.getElementById('user_email_modal'));
+                document.querySelector('#sendMail-btn').disabled = false;
             }
+        })
+        .catch(e => {
+            document.querySelector('#sendMail-btn').disabled = false;
         })
 }
 
@@ -61,13 +66,12 @@ const closeConfirmModal = (element) => {
 
 const applyConfirmModal = (element) => {
 
-    console.log(OptionData)
     if (Option === 'restrictAccount') {
         fetch(apiurl + "/api/Account/AccountStatus", {
             method: 'PUT',
             headers: {
                 'AYUS-API-KEY': apikey,
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 "UUID": OptionData.personalInformation.UUID,
@@ -76,7 +80,7 @@ const applyConfirmModal = (element) => {
                 "isOnline": OptionData.accountStatus.IsOnline
             })
         }).then(r => r.json())
-        .then(d => console.log(d))
+            .then(d => console.log(d))
     } else if (Option === 'deleteAccount') {
         fetch(apiurl + "/api/Account/AccountStatus", {
             method: 'PUT',
@@ -92,7 +96,92 @@ const applyConfirmModal = (element) => {
             })
         }).then(r => r.json())
             .then(d => console.log(d))
+    } else if (Option === 'changeAdminData') {
+        fetch('/admin/AllowAdmins?allowAdmin=' + document.querySelector('#allow-admin-reg').checked, {method: 'PUT'})
+            .then(r => r.json())
+            .then(d => {
+                document.querySelector('#allow-admin-reg').checked = d.AllowAdmin;
+                console.log(d)
+            });
     }
 
     closeConfirmModal(element);
+}
+
+
+const viewLicense = (fullnameID, licenseID) => {
+    document.getElementById('license-owner').innerHTML = document.getElementById(fullnameID).innerHTML;
+    document.getElementById('license-number').innerHTML = document.getElementById(licenseID).innerHTML;
+
+    const image = document.getElementById('license-photo');
+    
+
+    fetch(apiurl + `/api/Upload/files/${tempuserID}/license`)
+        .then(d => {
+            image.src = apiurl + `/api/Upload/files/${tempuserID}/license`;
+            image.style.width = '350';
+            image.style.height = '258';
+            image.width = '350';
+            image.height = '258';
+        })
+        .catch(e => {
+            image.src = "https://placehold.co/350x228";
+            console.log("error")
+        })
+
+    openWindow(document.getElementById('license_modal'))
+}
+
+
+const loadAllowAdmin = () => {
+    fetch('/admin/AllowAdmins')
+        .then(r => r.json())
+        .then(d => {
+            document.querySelector('#allow-admin-reg').checked = d.AllowAdmin;
+        });
+
+    loadServicePrice();
+}
+
+const changeAllowAdmin = () => {
+    const changeAdminSetting = document.querySelector('#user_confirm_modal');
+
+    openWindow(changeAdminSetting);
+
+    Option = 'changeAdminData';
+    OptionData = 'allow-admin-reg';
+
+    document.getElementById('user-confirm-message').innerHTML = `Are you sure you want to change the admin setting?`
+}
+
+const updateServicePrice = () => {
+    const servicePrice = document.querySelector('#billing-price').value;
+
+    if (servicePrice < 25) {
+        alert("Minimum service price should be P25");
+        return;
+    }
+
+    fetch(apiurl + `/api/System/ServicePrice?price=${servicePrice}`, {
+        method: 'PUT',
+        headers: {
+            'AYUS-API-KEY': apikey,
+        }
+    }).then(r => r.json())
+        .then(d => {
+            if (d.Status === 201)
+                alert('Service Price was updated to P30');
+            else
+                alert('Failed to update price');
+        }).catch(e => alert('Failed to update price'));
+}
+
+const loadServicePrice = () => {
+    fetch(apiurl + `/api/System/ServicePrice`, {
+        method: 'GET',
+        headers: {
+            'AYUS-API-KEY': apikey,
+        }
+    }).then(r => r.json())
+        .then(d => document.querySelector('#billing-price').value = d.ServicePrice);
 }

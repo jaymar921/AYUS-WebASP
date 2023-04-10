@@ -8,7 +8,7 @@
             allowSignup = false;
         }
 
-        public bool AllowSignup { get { return allowSignup; } }
+        public bool AllowSignup { get { return allowSignup; } set { allowSignup = value; } }
 
     }
 }

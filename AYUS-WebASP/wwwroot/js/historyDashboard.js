@@ -37,6 +37,8 @@ const updateUI = () => {
 }
 
 const loadHistoryAPI = () => {
+	if (currentWindow !== '' && currentWindow !== 'history')
+		return;
 	fetch(apiurl + "/api/System/Logs", {
 		method: 'GET',
 		headers: {

@@ -26,8 +26,6 @@ const updateMap = () => {
             
         }
     })
-
-    
    
 }
 
@@ -83,6 +81,8 @@ const updateAvailableMechanicTable = () => {
 
 
 const callAvailableMechanicAPI = () => {
+    if (currentWindow !== '' && currentWindow !== 'mechanics')
+        return;
     fetch(apiurl + "/api/Sessions/AvailableMechanics", {
         method: 'GET',
         headers: {

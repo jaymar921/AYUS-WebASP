@@ -76,11 +76,11 @@
                 </div>
                 <div class="flex">
                     <div class="profile-btns">
-                        <button><i class="fa-solid fa-id-card"></i> View License</button>
+                        <button onclick="viewLicense('account-modal-fullname','account-modal-license')"><i class="fa-solid fa-id-card"></i> View License</button>
                         <button id="restriction_button_modal" onclick="ristrictAccount('account-modal-email','restrictAccount');closeWindow(document.getElementById('user_detail_modal'));"><i class="fa-solid fa-lock"></i> Restrict Account</button>
                     </div>
                     <div class="profile-btns">
-                        <button onclick="openEmailModal('account-modal-email','account-modal-fullname', 'Account Update [REQUIRED]');closeWindow(document.getElementById('user_detail_modal'));"><i class="fa-solid fa-pen-nib"></i> Request for update</button>
+                        <button onclick="openEmailModal('account-modal-email','account-modal-fullname', 'Account Update [URGENT]');closeWindow(document.getElementById('user_detail_modal'));"><i class="fa-solid fa-pen-nib"></i> Request for update</button>
                         <button onclick="ristrictAccount('account-modal-email','deleteAccount');closeWindow(document.getElementById('user_detail_modal'));"><i class="fa-solid fa-trash"></i> Remove Account</button>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
             </div>
             <br>
             <div class="profile-btns">
-                <button onclick="SendEmailAPI()"><i class="fa-solid fa-id-card"></i> SEND EMAIL</button>
+                <button id="sendMail-btn" onclick="SendEmailAPI()"><i class="fa-solid fa-id-card"></i> SEND EMAIL</button>
                 <button onclick="closeWindow(document.getElementById('user_email_modal'))"><i class="fa-solid fa-lock"></i> CANCEL</button>
             </div>
         </div>
@@ -172,6 +172,60 @@
             <div>
                 <div class="left"><label>Remark: </label></div>
                 <div class="right"><p id="notif-remark">--</p></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- WALLET MODAL -->
+    <div id="wallet_modal" class="modal hidden">
+        <section class="tab-btns">
+            <button onclick="closeWindow(document.getElementById('wallet_modal'))"><i class="fa-solid fa-xmark"></i></button>
+        </section>
+        <div class="email_ui">
+            <h1>User Wallet</h1>
+            <div>
+                <div class="left"><label>Account: </label></div>
+                <div class="right"><p id="wallet-account">--</p></div>
+            </div>
+            <div>
+                <div class="left"><label>Balance: </label></div>
+                <div class="right"><p id="wallet-balance">--</p></div>
+            </div>
+            <h3>Reload User</h3>
+            <div>
+                <div class="left"><label>Amount: </label></div>
+                <div class="right"><input id="wallet-amount" type="number"></div>
+            </div>
+            <div class="profile-btns">
+                <button onclick="addBalance(this);"><i class="fa-solid fa-check"></i> Confirm</button>
+                <button onclick="closeWindow(document.getElementById('wallet_modal'))"><i class="fa-solid fa-xmark"></i> Close</button>
+            </div>
+
+        </div>
+    </div>
+    <!-- WALLET MODAL -->
+
+    <div id="license_modal" class="modal hidden">
+        <section class="tab-btns">
+            <button onclick="closeWindow(document.getElementById('license_modal'))"><i class="fa-solid fa-xmark"></i></button>
+        </section>
+        <div class="email_ui">
+            <h1>License</h1>
+            <div>
+                <div class="left"><label>Owner: </label></div>
+                <div class="right"><p id="license-owner">--</p></div>
+            </div>
+            <div>
+                <div class="left"><label>License #: </label></div>
+                <div class="right"><p id="license-number">--</p></div>
+            </div>
+            <br>
+            <img id="license-photo" style="border:1px solid black; border-radius: 10px;" src="https://placehold.co/350x228">
+            <p style="font-size: 10px;">License Photo</p>
+
+            <div class="profile-btns">
+                <button onclick="closeWindow(document.getElementById('license_modal'))"><i class="fa-solid fa-xmark"></i> Close</button>
             </div>
 
         </div>
@@ -225,7 +279,7 @@
                 <div class="search_bar">
                     <p>Enable Admin Registration</p>
                     <label class="switch">
-                        <input type="checkbox">
+                        <input onclick="changeAllowAdmin()" id="allow-admin-reg" type="checkbox">
                         <span class="slider"></span>
                     </label>
                     <p>|</p>
@@ -303,10 +357,6 @@
             <h2 class="dashboard_title">Notifications Dashboard</h2>
             <div class="accounts_ui">
                 <br>
-                <div class="search_bar">
-                    <input type="search" placeholder="Search 🔎">
-                </div>
-                <br>
                 <div class="dashboard-flex">
                     <div>
                         <h2 class="center">Booking Requests</h2>
@@ -355,11 +405,17 @@
             <h2 class="dashboard_title">Billing Dashboard</h2>
             <div class="accounts_ui">
                 <br>
+                <p class="dashboard_title">Update Service Rate</p>
+                <div class="search_bar">
+                    <input id="billing-price" type="number" placeholder="Price" value="25">
+                    <button onclick="updateServicePrice()" class="btn-bluish">Update</button>
+                </div>
+                <br />
+                <h2 class="dashboard_title">Billing History</h2>
                 <div class="search_bar">
                     <input id="billing-filter" type="search" placeholder="Search 🔎">
                 </div>
-                <br>
-
+                
                 <!-- BOOKING REQUESTS -->
                 <table>
                     <thead>
@@ -376,11 +432,7 @@
                     </tbody>
                 </table>
 
-                <h2 class="dashboard_title">Update Service Rate</h2>
-                <div class="search_bar">
-                    <input type="number" placeholder="Price" value="25">
-                    <button class="btn-bluish">Update</button>
-                </div>
+                
 
                 <br><br>
             </div>
