@@ -17,17 +17,19 @@ namespace AYUS_WebASP.Controllers
     public class AuthenticateController : Controller
     {
         private readonly DataRepository _dataRepository;
-        public AuthenticateController(DataRepository data) 
+        private readonly WEBConfig wEBConfig;
+        public AuthenticateController(DataRepository data, WEBConfig weB) 
         {
             _dataRepository = data;
+            wEBConfig = weB;
         }
         [AllowAnonymous]
         public IActionResult Login()
         {
             AuthenticateModel authenticateModel = new AuthenticateModel();
             authenticateModel.allowSignUp = _dataRepository.AllowSignup;
-            authenticateModel.apikey = _dataRepository.ApiKey;
-            authenticateModel.apiUrl = _dataRepository.APIUrl;
+            authenticateModel.apikey = wEBConfig.ApiKey;
+            authenticateModel.apiUrl = wEBConfig.ApiUrl;
             TempData["Message"] = "";
             return View(authenticateModel);
         }
@@ -37,8 +39,8 @@ namespace AYUS_WebASP.Controllers
         public async Task<IActionResult> Login(AuthenticateModel account)
         {
             account.allowSignUp = _dataRepository.AllowSignup;
-            account.apikey = _dataRepository.ApiKey;
-            account.apiUrl = _dataRepository.APIUrl;
+            account.apikey = wEBConfig.ApiKey;
+            account.apiUrl = wEBConfig.ApiUrl;
             if (account == null)
             {
                 return View(account);
@@ -51,7 +53,7 @@ namespace AYUS_WebASP.Controllers
 
             // add an accept header for JSON format
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("AYUS-API-KEY", _dataRepository.ApiKey);
+            client.DefaultRequestHeaders.Add("AYUS-API-KEY", wEBConfig.ApiKey);
             client.DefaultRequestHeaders.Add("username", account.Username);
             client.DefaultRequestHeaders.Add("password", account.Password);
 

@@ -112,18 +112,21 @@
         All rights reserved (2023)
     </footer>
     <script>
-        document.querySelector('#registerButton').addEventListener('click', (e) => {
-        document.querySelector('#registerModal').classList.remove('hidden');
-        document.querySelector('#registerModal').classList.remove('changeZIndex');
-        document.querySelector('#main-container').classList.add('blurEffect');
-        });
-        document.querySelector('#closeModal').addEventListener('click', (e) => {
-        setTimeout(()=>{
-        document.querySelector('#registerModal').classList.add('changeZIndex');
-        }, 500);
-        document.querySelector('#registerModal').classList.add('hidden');
-        document.querySelector('#main-container').classList.remove('blurEffect');
-        });
+        try{
+            document.querySelector('#registerButton').addEventListener('click', (e) => {
+                document.querySelector('#registerModal').classList.remove('hidden');
+                document.querySelector('#registerModal').classList.remove('changeZIndex');
+                document.querySelector('#main-container').classList.add('blurEffect');
+            });
+            document.querySelector('#closeModal').addEventListener('click', (e) => {
+                setTimeout(() => {
+                    document.querySelector('#registerModal').classList.add('changeZIndex');
+                }, 500);
+                document.querySelector('#registerModal').classList.add('hidden');
+                document.querySelector('#main-container').classList.remove('blurEffect');
+            });
+        }catch{}
+        
     </script>
     @if (Model.allowSignUp)
     {

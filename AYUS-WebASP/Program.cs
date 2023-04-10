@@ -23,6 +23,15 @@ namespace AYUS_WebASP
                 });
 
 
+            builder.Services.AddSingleton<WEBConfig>(new WEBConfig()
+            {
+                ApiKey = builder.Configuration["API_KEY"],
+                ApiUrl = builder.Configuration["API_URL"],
+                EmailSender_Email = builder.Configuration["SMTP_EMAIL"],
+                EmailSender_Password = builder.Configuration["SMTP_PASS"]
+            });
+
+
 
             var app = builder.Build();
 

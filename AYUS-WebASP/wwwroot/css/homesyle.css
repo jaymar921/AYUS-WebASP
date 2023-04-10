@@ -1,4 +1,4 @@
-:root{
+:root {
     --shady_white: rgb(253, 253, 253);
     --shady_white_darker: rgb(243, 243, 243);
     --light_steel_blue: #d2e1e6;
@@ -8,46 +8,52 @@
     --color_light: #cdd2fc;
     --darken: rgba(0,0,0,0.1);
 }
-body{
+
+img.huechange {
+    filter: hue-rotate(120deg);
+}
+
+body {
     margin: 0;
     font-family: inter;
 }
 
-button:hover{
+button:hover {
     cursor: pointer;
 }
-button{
+
+button {
     font-size: 18px;
     border: 0;
     background-color: var(--shady_white_darker);
 }
 
 
-.admin{
+.admin {
     width: 100vw;
     height: 100vh;
     background-color: var(--shady_white);
     overflow: hidden;
 }
 
-.menu{
+.menu {
     position: absolute;
     width: 300px;
     height: 100vh;
     background-color: var(--shady_white_darker);
 }
 
-.user{
+.user {
     text-align: center;
     margin-top: 50px;
     margin-bottom: 50px;
 }
 
-.user h1,p{
-    margin: 0;
-}
+    .user h1, p {
+        margin: 0;
+    }
 
-.menu .menu-header{
+.menu .menu-header {
     position: relative;
     display: flex;
     width: fit-content;
@@ -57,74 +63,74 @@ button{
     margin-bottom: 20px;
 }
 
-.menu .menu-header div{
-    padding-left: 10px;
-}
+    .menu .menu-header div {
+        padding-left: 10px;
+    }
 
-.menu .menu-header div h1{
-    font-size: 35px;
-    padding: 0;
-    margin: 0;
-}
+        .menu .menu-header div h1 {
+            font-size: 35px;
+            padding: 0;
+            margin: 0;
+        }
 
-.menu .menu-header div p{
-    font-weight: 900;
-    padding: 0;
-    margin: 0;
-}
+        .menu .menu-header div p {
+            font-weight: 900;
+            padding: 0;
+            margin: 0;
+        }
 
-.logo{
+.logo {
     width: 70px;
     height: 60px;
 }
 
-.menu .menu-buttons div{
+.menu .menu-buttons div {
     position: relative;
     display: block;
 }
 
-.menu .menu-buttons div button{
-    width: 100%;
-    height: 60px;
-    transition: all 1000ms ease;
-}
+    .menu .menu-buttons div button {
+        width: 100%;
+        height: 60px;
+        transition: all 1000ms ease;
+    }
 
-.menu .menu-buttons div button.active{
-    background-color: var(--color_light);
-    margin-left: 20px;
-    color: rgb(81, 67, 116);
-}
-
-
-.menu .menu-buttons div button.active:before{
-    position: absolute;
-    content: '';
-    width:  20px;
-    height: 100%;
-    left: 0;
-    top: 0;
-    background-color: var(--purple);
-    transition: all 1000ms ease;
-}
-
-.menu .menu-buttons div button:hover{
-    margin-left: 20px;
-    color: grey;
-}
-
-.menu .menu-buttons div button.active:hover{
-    margin-left: 20px;
-    color: rgb(88, 88, 88);
-}
+        .menu .menu-buttons div button.active {
+            background-color: var(--color_light);
+            margin-left: 20px;
+            color: rgb(81, 67, 116);
+        }
 
 
+            .menu .menu-buttons div button.active:before {
+                position: absolute;
+                content: '';
+                width: 20px;
+                height: 100%;
+                left: 0;
+                top: 0;
+                background-color: var(--purple);
+                transition: all 1000ms ease;
+            }
+
+        .menu .menu-buttons div button:hover {
+            margin-left: 20px;
+            color: grey;
+        }
+
+        .menu .menu-buttons div button.active:hover {
+            margin-left: 20px;
+            color: rgb(88, 88, 88);
+        }
 
 
 
 
 
 
-.menu .menu-bottom-buttons{
+
+
+.menu .menu-bottom-buttons {
     position: absolute;
     display: block;
     width: 100%;
@@ -132,11 +138,11 @@ button{
 }
 
 
-.menu .menu-bottom-buttons button{
-    width: 100%;
-    height: 50px;
-    background-color: rgb(221, 115, 115);
-}
+    .menu .menu-bottom-buttons button {
+        width: 100%;
+        height: 50px;
+        background-color: rgb(221, 115, 115);
+    }
 
 /*
  =======================================================
@@ -144,7 +150,7 @@ button{
  =======================================================
 */
 
-.dashboard{
+.dashboard {
     position: fixed;
     min-width: 700px;
     width: 80%;
@@ -154,10 +160,11 @@ button{
     overflow-y: scroll;
 }
 
-.dashboard_title{
+.dashboard_title {
     text-align: center;
-} 
-.search_bar{
+}
+
+.search_bar {
     position: relative;
     width: fit-content;
     margin: 5px;
@@ -167,23 +174,23 @@ button{
     align-items: center;
 }
 
-.accounts_ui{
+.accounts_ui {
     position: absolute;
     width: 100%;
 }
 
-.search_bar input, p{
+.search_bar input, p {
     font-size: 18px;
     margin: 5px;
     padding: 5px;
 }
 
-.search_bar input{
+.search_bar input {
     outline: none;
     border-radius: 5px;
 }
 
-table, #map{
+table, #map {
     position: relative;
     width: 80%;
     left: 50%;
@@ -194,7 +201,7 @@ table, #map{
     overflow: hidden;
 }
 
-#map{
+#map {
     height: 300px;
     -moz-user-select: -moz-none;
     -khtml-user-select: none;
@@ -203,41 +210,42 @@ table, #map{
     user-select: none;
 }
 
-table thead tr th, table tbody tr td{
+table thead tr th, table tbody tr td {
     text-align: center;
 }
 
-table thead{
+table thead {
     height: 50px;
     background-color: var(--color_light);
 }
 
-table tbody{
+table tbody {
     position: relative;
 }
 
-table tbody tr td{
-    padding: 5px;
-}
+    table tbody tr td {
+        padding: 5px;
+    }
 
-table tbody tr{
-    position: relative;
-    height: 50px;
-    max-height: 20px;
-    width: 100%;
-    overflow: hidden;
-}
-table tbody tr:hover{
-    background-color: var(--purple);
-    cursor: pointer;
-}
+    table tbody tr {
+        position: relative;
+        height: 50px;
+        max-height: 20px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+        table tbody tr:hover {
+            background-color: var(--purple);
+            cursor: pointer;
+        }
 
 
 /*
     MODALS
 */
 
-.modal{
+.modal {
     position: absolute;
     box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.2);
     left: 50%;
@@ -248,24 +256,24 @@ table tbody tr:hover{
     overflow: hidden;
 }
 
-.client_info{
+.client_info {
     width: 500px;
     height: fit-content;
     background-color: var(--shady_white);
 }
 
-.tab-btns{
+.tab-btns {
     position: absolute;
     right: 0;
     top: 0;
 }
 
-.tab-btns button:hover{
-    background-color: var(--darken);
-    cursor: pointer;
-}
+    .tab-btns button:hover {
+        background-color: var(--darken);
+        cursor: pointer;
+    }
 
-.aligned{
+.aligned {
     position: relative;
     display: flex;
     width: 95%;
@@ -274,81 +282,81 @@ table tbody tr:hover{
     margin: 0;
 }
 
-.aligned p:nth-child(odd){
-    width: 100%;
-    max-width: 100px;
-    text-align: left;
-    font-weight: 900;
-}
+    .aligned p:nth-child(odd) {
+        width: 100%;
+        max-width: 100px;
+        text-align: left;
+        font-weight: 900;
+    }
 
-.aligned p:nth-child(even){
-    width: 100%;
-    text-align: left;
-}
+    .aligned p:nth-child(even) {
+        width: 100%;
+        text-align: left;
+    }
 
-.aligned p{
-    padding: 0;
-    margin: 0;
-    font-size: 15px;
-}
+    .aligned p {
+        padding: 0;
+        margin: 0;
+        font-size: 15px;
+    }
 
-.profile .flex{
+.profile .flex {
     position: relative;
     width: 100%;
     height: 100%;
     display: flex;
 }
 
-.profile .flex div{ 
-    padding: 10px;
-}
+    .profile .flex div {
+        padding: 10px;
+    }
 
-.w132{
+.w132 {
     width: 132px;
 }
 
-.wmax{
+.wmax {
     width: 100%;
 }
 
-.center{
+.center {
     width: 100%;
     text-align: center;
     align-items: center;
 }
 
-.profile-btns{
+.profile-btns {
     position: relative;
     display: block;
     width: 50%;
     align-items: center;
 }
 
-.profile-btns button{
-    font-size: 15px;
-    position: relative;
-    width: 180px;
-    height: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: all 200ms ease-in;
-}
+    .profile-btns button {
+        font-size: 15px;
+        position: relative;
+        width: 180px;
+        height: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: all 200ms ease-in;
+    }
 
-.profile-btns button:hover{
-    font-size: 17px;
-    background-color: var(--darken);
-}
+        .profile-btns button:hover {
+            font-size: 17px;
+            background-color: var(--darken);
+        }
 
-.dashboard-flex{
+.dashboard-flex {
     width: 100%;
     display: flex;
 }
 
-.dashboard-flex div{
-    width: 100%;
-}
+    .dashboard-flex div {
+        width: 100%;
+    }
 
-.btn-bluish{
+.btn-bluish {
     background-color: var(--seagull);
     width: 200px;
     height: 100%;
@@ -358,88 +366,151 @@ table tbody tr:hover{
     color: black;
 }
 
-.btn-bluish:hover{
-    background-color: var(--san_marino);
+    .btn-bluish:hover {
+        background-color: var(--san_marino);
+    }
+
+.email_ui {
+    position: relative;
+    width: 450px;
+    text-align: center;
+    display: block;
+    padding: 10px;
+    background-color: var(--shady_white);
 }
+
+    .email_ui div {
+        position: relative;
+        width: 100%;
+        margin: auto;
+        display: flex;
+        font-size: 20px;
+    }
+
+        .email_ui div .left {
+            position: relative;
+            width: 30%;
+            text-align: right;
+            padding: 10px;
+        }
+
+        .email_ui div .right {
+            position: relative;
+            width: 70%;
+        }
+
+        .email_ui div div textarea, input {
+            position: relative;
+            width: 100%;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        .email_ui div div textarea {
+            resize: none;
+            height: 150px;
+        }
+
+    .email_ui .profile-btns {
+        width: 100%;
+    }
+
+        .email_ui .profile-btns button {
+            font-size: 15px;
+            position: relative;
+            width: 180px;
+            height: 50px;
+            left: 0;
+            transform: translateX(0%);
+            transition: all 200ms ease-in;
+            margin: auto;
+        }
+
 
 /*
     UTILITY
 */
-.blur{
+.blur {
     filter: blur(2px);
 }
-.hidden{
+
+.hidden {
     z-index: -1;
     opacity: 0;
+}
+
+.top0 {
+    top: 0;
+    transform: translateX(-50%);
 }
 /*
     w3schools
 */
 
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
 }
 
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
 
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
 
 input:checked + .slider {
-  background-color: #2196F3;
+    background-color: #2196F3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #2196F3;
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
 }
 
 /* Rounded sliders */
 .slider.round {
-  border-radius: 34px;
+    border-radius: 34px;
 }
 
-.slider.round:before {
-  border-radius: 50%;
-}
+    .slider.round:before {
+        border-radius: 50%;
+    }
 
 /*
     BOTTOM FOOTER
 */
-.bottom-right{
+.bottom-right {
     position: fixed;
     bottom: 0;
     right: 0;
