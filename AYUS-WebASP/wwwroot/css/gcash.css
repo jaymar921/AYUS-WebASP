@@ -1,0 +1,156 @@
+body{
+    margin: 0;
+    background-color: #ebecf0;
+}
+
+.banner{
+    position: absolute;
+    background-color: #0057E4;
+    width: 100%;
+    height: 20vh;
+}
+
+.modal{
+    position: absolute;
+    width: 350px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.modal img{
+    position: relative;
+    width: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.modal .g-form{
+    margin-top: 10px;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.1);
+}
+
+.g-form .g{
+    display: flex;
+    margin: 0;
+    padding: 5px;
+}
+
+.g p{
+    margin: 0;
+    padding: 10px;
+}
+
+.g p:nth-child(odd){
+    width: 85px;
+    color: gray;
+}
+
+.g-center{
+    text-align: center;
+}
+
+.g-input{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+}
+
+.g-input p{
+    text-align: left;
+    font-size: 12px;
+}
+
+.g-input label{
+    text-align: left;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    top: -10px;
+    font-size: 18px;
+}
+
+.g-input input{
+    width: 150px;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    padding-left: 10px;
+}
+
+.offset-top{
+    position: relative;
+    top: -15px;
+
+}
+
+button{
+    width: 60%;
+    padding: 8px;
+    border-radius: 30px;
+    border: none;
+    background-color: #0057E4;
+    color: white;
+    font-size: 15px;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.hidden{
+    opacity: 0;
+    z-index: -1;
+}
+
+.g-code{
+    width: 152px;
+    outline: none;
+    border: none;
+    font-size: 22px;
+    padding-left: 10px;
+    text-align: left;
+    font-weight: 900;
+    letter-spacing: 12px;
+}
+.g-code::-webkit-inner-spin-button, .g-code::-webkit-outer-spin-button,
+.g-cpnum::-webkit-inner-spin-button,.g-cpnum::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.g-cpnum{
+    letter-spacing: 1px;
+}
+
+
+.g-code-dashes{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+}
+
+.g-code-dashes img{
+    width: 150px;
+    top: -15px;
+    object-fit: fill;
+}
+
+.fter{
+    position: absolute;
+    text-align: center;
+    bottom: 0px;
+    color: grey;
+    z-index: 10;
+    width: 100%;
+    font-size: 12px;
+}
+
+.grey{
+    background-color: lightgrey;
+    color: grey;
+}

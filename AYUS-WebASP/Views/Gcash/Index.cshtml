@@ -1,0 +1,170 @@
+﻿@model GCashModel
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCash [SANDBOX]</title>
+    <link rel="stylesheet" type="text/css" href="~/css/gcash.css">
+</head>
+<body>
+    <div class="banner"></div>
+    <div id="modal_number" class="modal">
+        <img src="~/img/gcashlogo.png" />
+        <div class="g-form">
+            <div class="g">
+                <p>Merchant</p>
+                <p id="merchant-0">AYUS@ICTEAM</p>
+            </div>
+            <div class="g">
+                <p>Amount Due</p>
+                <p id="amount-due" style="color: blue">PHP 100.00</p>
+            </div>
+            <div class="g-center">
+                <h4>Login to pay with GCash</h4>
+                <div class="g-input">
+                    <p>Mobile Number</p>
+                    <label>+63|<input class="g-cpnum" id="in_num" type="number"></label>
+                    <hr class="offset-top">
+                </div>
+                <br>
+                <br>
+                <button onclick="getCode()">NEXT</button>
+                <br><br>
+            </div>
+        </div>
+    </div>
+    <div id="modal_code" class="modal hidden">
+        <img src="~/img/gcashlogo.png" />
+        <div class="g-form">
+            <div class="g">
+                <p><img style="width: 32px;padding-top: 5px;padding-left: 20px;" src="~/img/phone-logo.png"></p>
+                <p style="font-size: 15px;padding-top: 20px;text-align: left;padding-left: 0px;margin: 0;color: grey">We sent an authentication code to your number <a id="a_number" style="font-weight: 900;">09123456789</a></p>
+            </div>
+            <br><br>
+            <div class="g-center">
+                <h4>Enter Authentication Code</h4>
+                <input id="v-code" onchange="filledInputCode()" class="g-code" type="number">
+                <div class="g-code-dashes"><img src="~/img/dashes.png"></div>
+                <br>
+                <br>
+                <br>
+                <button id="submitbtn" class="grey" onclick="submitCode()" disabled>SUBMIT CODE</button>
+                <p style="color: gray; font-size: 13px;">Need new code? Resend now</p>
+                <br>
+            </div>
+        </div>
+    </div>
+    <div id="modal_success" class="modal hidden">
+        <img src="~/img/gcashlogo.png" />
+        <div class="g-form">
+
+            <br>
+            <div class="g-center">
+                <h4 style="color: grey">Successfully Paid To</h4>
+                <p style="position: relative;;background-color: lightgrey;color: grey;font-weight: 999; font-size: 35px; padding: 10px; width: 40px;border-radius: 30px; left: 50%;transform: translateX(-50%); margin: 0;">A</p>
+                <p id="merchant-1" style="color: grey; font-size: 18px;margin: 0; padding: 15px;">AYUS@ICTEAM</p>
+                <p id="amount-success-payment1" style="color: grey; font-size: 20px; font-weight: 600;margin: 0; padding: 0;">php 2,000.00</p>
+                <br><br>
+                <div class="g">
+                    <p style="padding-left: 20px;text-align: left;width: 200px;">Amount Due</p>
+                    <p id="amount-success-payment2" style="font-size: 15px;text-align: right;padding-left: 0px;margin: 0;color: grey"></p>
+                </div>
+                <div class="g" style="margin: 0; padding-top: 0px;">
+                    <p style="padding-left: 20px;text-align: left;width: 200px; padding-top: 0;">Payment Method</p>
+                    <p style="font-size: 15px;text-align: right; padding-top: 0;padding-left: 0px;margin: 0;color: grey">GCash</p>
+                </div>
+                <br>
+                <p id="ref-payment" style="color: grey; font-size: 16px; font-weight: 600;margin: 0; padding: 0;">Ref. No. 100000000</p>
+                <p id="date-payment" style="color: grey; font-size: 16px;margin: 0; padding: 0;">Date</p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p style="color: grey; font-size: 12px;margin: 0; padding: 10px;">Please show this screen to the cashier for verification.<br> You will also receive an SMS for future reference.</p>
+                <div style="width: 100%; text-align: left;">
+                    <img style="position: relative;width: 130px;" src="~/img/gcash-scanqr.png">
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+    <div class="fter">
+        GCash Sandbox - by <a target="_blank" style="color: grey" href="https://jayharronabejar.info">Jayharron Mar Abejar</a>
+    </div>
+    <script>
+        let amount = @Model.amount;
+        let merchant = '@Model.merchant';
+        let returnurl = '@Model.redirecturl';
+        /*
+            padagan mode HAHAHAH
+
+            by: Jayharron Mar Abejar
+        */
+        function getCode() {
+            let number = document.getElementById('in_num').value;
+
+            if (number > 9000000000 && number < 9999999999) {
+                document.querySelector('#modal_number').classList.add('hidden');
+                document.querySelector('#modal_code').classList.remove('hidden');
+                document.querySelector('#a_number').innerHTML = `+63 ${number}`;
+
+                let randomNum = generateRandom(999999, 100000);
+
+                setTimeout(() => {
+                    document.querySelector('#v-code').value = randomNum;
+                    document.querySelector('#submitbtn').disabled = false;
+                    document.querySelector('#submitbtn').classList.remove('grey');
+                }, 1500)
+            }
+        }
+
+        function submitCode() {
+            document.getElementById('modal_success').classList.remove('hidden')
+            setTimeout( () => {
+                if (returnurl.split('_').includes('AYUS')){
+                    fetch('/gcashpayment', {
+                        method: 'POST',
+                        headers:{'Content-Type':'application/json'},
+                        body: JSON.stringify({ 'ayus': returnurl })
+                    }).then(r => r.json())
+                    .then(d => console.log(d))
+                }else{
+                    location.href = returnurl;
+                }
+            }, 1000)
+        }
+
+        function generateRandom(max, min) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        document.querySelector('#amount-due').innerHTML = 'PHP ' + amount.toFixed(2);
+        document.querySelector('#amount-success-payment1').innerHTML = 'php ' + amount.toFixed(2);
+        document.querySelector('#amount-success-payment2').innerHTML = 'php ' + amount.toFixed(2);
+        document.querySelector('#date-payment').innerHTML = new Date().toDateString() + " " + new Date().toLocaleTimeString();
+        document.querySelector('#ref-payment').innerHTML = 'Ref. No. ' + generateRandom(999999999, 10000000)
+        document.querySelector('#merchant-0').innerHTML = merchant;
+        document.querySelector('#merchant-1').innerHTML = merchant;
+
+        document.getElementById('v-code').addEventListener('input', ({ target }) => {
+            if (target.value > 10000) {
+                document.querySelector('#submitbtn').disabled = false;
+                document.querySelector('#submitbtn').classList.remove('grey');
+            } else {
+                document.querySelector('#submitbtn').disabled = true;
+                document.querySelector('#submitbtn').classList.add('grey');
+            }
+        })
+
+    </script>
+</body>
+</html>
