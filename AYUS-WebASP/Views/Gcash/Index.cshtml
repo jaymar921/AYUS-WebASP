@@ -33,7 +33,7 @@
                 </div>
                 <br>
                 <br>
-                <button onclick="getCode()">NEXT</button>
+                <button id="get-code" onclick="getCode()" class="grey">NEXT</button>
                 <br><br>
             </div>
         </div>
@@ -138,7 +138,7 @@
                 }else{
                     location.href = returnurl;
                 }
-            }, 1000)
+            }, 4000)
         }
 
         function generateRandom(max, min) {
@@ -164,6 +164,16 @@
                 document.querySelector('#submitbtn').classList.add('grey');
             }
         })
+
+        document.getElementById('in_num').addEventListener('input', ({target}) => {
+            if (target.value > 9000000000 && target.value < 9999999999) {
+                document.querySelector('#get-code').disabled = false;
+                document.querySelector('#get-code').classList.remove('grey');
+            } else {
+                document.querySelector('#get-code').disabled = true;
+                document.querySelector('#get-code').classList.add('grey');
+            }
+        });
 
     </script>
 </body>

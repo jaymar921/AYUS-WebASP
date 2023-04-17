@@ -12,7 +12,7 @@ body{
 
 .modal{
     position: absolute;
-    width: 350px;
+    width: 330px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -74,10 +74,11 @@ body{
 }
 
 .g-input input{
-    width: 150px;
+    width: 140px;
     outline: none;
     border: none;
     font-size: 18px;
+    letter-spacing: 2px;
     padding-left: 10px;
 }
 
