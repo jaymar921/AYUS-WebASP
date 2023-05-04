@@ -180,13 +180,13 @@ button {
     width: 100%;
 }
 
-.search_bar input, p {
+.search_bar input, p, select {
     font-size: 18px;
     margin: 5px;
     padding: 5px;
 }
 
-.search_bar input {
+.search_bar input, select {
     outline: none;
     border-radius: 5px;
 }
@@ -371,9 +371,21 @@ table tbody {
     color: black;
 }
 
+
     .btn-bluish:hover {
         background-color: var(--san_marino);
     }
+
+
+.btn-whitish {
+    background-color: var(--shady_white);
+    width: 200px;
+    height: 100%;
+    padding: 8px;
+    border-radius: 3px;
+    transition: all 1000ms ease;
+    color: black;
+}
 
 .email_ui {
     position: relative;

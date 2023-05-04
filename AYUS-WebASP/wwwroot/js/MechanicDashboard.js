@@ -5,7 +5,9 @@ const loadMechanics = () => {
 
     callAvailableMechanicAPI();
 
-    setInterval(() => callAvailableMechanicAPI(), 2000);
+    setInterval(() => { callServiceAPI(); }, 2000);
+
+    setInterval(() => { callAvailableMechanicAPI(); }, 5000);
 
     setInterval(() => updateAvailableMechanicTable(), 500);
 
@@ -91,6 +93,8 @@ const callAvailableMechanicAPI = () => {
     })
         .then(r => r.json())
         .then(d => {
+            if (d.Status === 404)
+                return;
             availableMechanics = [];
             d.forEach(mechanic => {
                 fetch(apiurl + "/api/TemporaryRoute/MapLocation", {
@@ -119,4 +123,81 @@ const callAvailableMechanicAPI = () => {
             })
         });
 
+}
+
+// available-services table;
+
+const callServiceAPI = () => {
+    fetch(apiurl + '/api/System/Service', {
+        headers: {
+            'AYUS-API-KEY': apikey,
+        }
+    }).then(r => r.json())
+    .then(d => {
+        const table = document.getElementById('available-services');
+        table.innerHTML = '';
+        d.Services.forEach(service => {
+            const trow = document.createElement('tr');
+
+            const sname = document.createElement('td');
+            sname.innerHTML = service.ServiceName;
+            sname.title = service.ServiceDescription;
+
+            const sdesc = document.createElement('td');
+            sdesc.innerHTML = service.ServiceDescription;
+
+            const sdel = document.createElement('td');
+
+            const btn = document.createElement('button');
+            btn.addEventListener('click', (e) => { deleteService(service.ServiceID); });
+            btn.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
+            btn.classList.add('btn-whitish');
+            sdel.appendChild(btn);
+
+            trow.appendChild(sname);
+            trow.appendChild(sdesc);
+            trow.appendChild(sdel);
+            table.appendChild(trow);
+        });
+    })
+}
+
+const deleteService = (serviceID) => {
+    if (confirm('You are going to delete a service')) {
+        fetch(apiurl + '/api/System/Service', {
+            method: 'DELETE',
+            headers: {
+                'AYUS-API-KEY': apikey,
+                'ServiceID': serviceID
+            }
+        }).then(r => r.json())
+        .then(d => {
+            if (d.Status === 200) {
+                alert('Service was successfully deleted');
+            }
+        })
+    }
+}
+const addService = () => {
+    let service = document.getElementById('mechanic-services-input').value;
+    let desc = document.getElementById('mechanic-services-desc').value;
+
+    fetch(apiurl + '/api/System/Service', {
+        method: 'POST',
+        headers: {
+            'AYUS-API-KEY': apikey,
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+            "ServiceName": `${service}`,
+            "ServiceDescription": `${desc}`
+        })
+    }).then(r => r.json())
+    .then(d => {
+        if (d.Status === 201) {
+            alert('Service was successfully added into the system');
+            document.getElementById('mechanic-services-input').value = '';
+            document.getElementById('mechanic-services-desc').value = '';
+        }
+    })
 }

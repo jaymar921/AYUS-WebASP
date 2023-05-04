@@ -116,9 +116,9 @@ const viewLicense = (fullnameID, licenseID) => {
     const image = document.getElementById('license-photo');
     
 
-    fetch(apiurl + `/api/Upload/files/${tempuserID}/license`)
+    fetch(apiurl + `/api/Upload/files/${tempuserID}/LICENSE`)
         .then(d => {
-            image.src = apiurl + `/api/Upload/files/${tempuserID}/license`;
+            image.src = apiurl + `/api/Upload/files/${tempuserID}/LICENSE`;
             image.style.width = '350';
             image.style.height = '258';
             image.width = '350';

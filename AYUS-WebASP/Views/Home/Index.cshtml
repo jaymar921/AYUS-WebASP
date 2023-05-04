@@ -330,7 +330,9 @@
                 <div class="search_bar">
                     <input id="available-mechanic-search" type="search" placeholder="Search 🔎">
                 </div>
-                <br>
+               
+                
+                <br />
                 <h2 class="dashboard_title">Available Mechanics</h2>
                 <table>
                     <thead>
@@ -347,6 +349,23 @@
                 </table>
                 <h2 class="dashboard_title">Mechanic Map</h2>
                 <div id="map"></div>
+                <br>
+                <h2 class="dashboard_title">Services</h2>
+                <div class="search_bar">
+                    <input id="mechanic-services-input" type="search" placeholder="New Service"><input id="mechanic-services-desc" type="search" placeholder="Description"><button class="btn-bluish" onclick="addService()">Add</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="available-services">
+                        <!-- JAVASCRIPT WILL POPULATE THIS -->
+                    </tbody>
+                </table>
 
                 <br><br>
             </div>

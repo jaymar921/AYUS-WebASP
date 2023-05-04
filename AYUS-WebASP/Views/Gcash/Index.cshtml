@@ -95,8 +95,8 @@
             </div>
         </div>
     </div>
-    <div class="fter">
-        GCash Sandbox - by <a target="_blank" style="color: grey" href="https://jayharronabejar.info">Jayharron Mar Abejar</a>
+    <div class="fter" style="color: white">
+        GCash Sandbox - by <a target="_blank" style="color: white" href="https://jayharronabejar.info">Jayharron Mar Abejar</a>
     </div>
     <script>
         let amount = @Model.amount;
@@ -136,7 +136,16 @@
                     }).then(r => r.json())
                     .then(d => console.log(d))
                 }else{
-                    location.href = returnurl;
+                    let frags = returnurl.split('~');
+
+                    if(frags.length > 1){
+                        if(frags[0].toLowerCase().includes('fetch')){
+                            fetch(frags[1]);
+                        }
+                    }else{
+                        location.href = returnurl;
+                    }
+                    
                 }
             }, 4000)
         }

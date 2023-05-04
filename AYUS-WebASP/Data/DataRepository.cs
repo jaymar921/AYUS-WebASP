@@ -5,7 +5,7 @@
         private bool allowSignup;
         public DataRepository() 
         {
-            allowSignup = false;
+            allowSignup = true;
         }
 
         public bool AllowSignup { get { return allowSignup; } set { allowSignup = value; } }
