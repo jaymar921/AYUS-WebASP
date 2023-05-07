@@ -52,20 +52,43 @@ const openWalletModal = (uuid, fullname, balance) => {
 
 function addBalance(element) {
     element.disabled = true;
-    const newBalance = parseInt(document.getElementById('wallet-amount').value) + parseInt(tempUserBal.replace('<i class="fa-solid fa-peso-sign"></i> ',''));
-    fetch(apiurl + "/api/Wallet?uuid="+tempUserId, {
-        method: "PUT",
-        headers: {
-            "AYUS-API-KEY": apikey,
-            "newbalance": parseInt(newBalance)
-        }
-    }).then(r => r.json())
-        .then(d => {
-            closeWindow(document.getElementById('wallet_modal'))
-            element.disabled = false;
-        })
-        .catch(e => {
-            element.disabled = false;
-        })
 
+    const option = document.getElementById('wallet-option').value;
+    console.log(option)
+    const balance = parseInt(tempUserBal.replace('<i class="fa-solid fa-peso-sign"></i> ', ''));
+    if (option === 'reload') {
+        const newBalance = parseInt(document.getElementById('wallet-amount').value) + balance;
+        fetch(apiurl + "/api/Wallet?uuid=" + tempUserId, {
+            method: "PUT",
+            headers: {
+                "AYUS-API-KEY": apikey,
+                "newbalance": parseInt(newBalance)
+            }
+        }).then(r => r.json())
+            .then(d => {
+                closeWindow(document.getElementById('wallet_modal'))
+                element.disabled = false;
+            })
+            .catch(e => {
+                element.disabled = false;
+            })
+    } else {
+        const amount = parseInt(document.getElementById('wallet-amount').value);
+        if (amount > balance) {
+            element.disabled = false;
+            alert('Amount to cashout should not be\ngreater than balance');
+            return;
+        }
+        if (balance <= 0) {
+            element.disabled = false;
+            alert('Could not cashout on 0 balance');
+            return;
+        }
+        const fullname = document.getElementById('wallet-account').innerHTML;
+        // url = http://localhost:5043/gcash?merchant=AYUS@ICTEAM&amount=100&redirecturl=AYUS_UID_2029bdd8-a44f-4e53-93dd-5b6d07a199be_AMT_100
+        window.open(`/gcash?merchant=${fullname}&amount=${amount}&redirecturl=AYUS_UID_${tempUserId}_AMT_${-amount}`);
+        element.disabled = false;
+    }
+    
+    document.getElementById('wallet-amount').value = '';
 }

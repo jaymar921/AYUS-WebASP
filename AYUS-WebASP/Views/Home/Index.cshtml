@@ -30,6 +30,7 @@
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
             integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
             crossorigin=""></script>
+    <script src="https://kit.fontawesome.com/55a8472328.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="user_detail_modal" class="modal hidden">
@@ -192,11 +193,18 @@
                 <div class="left"><label>Balance: </label></div>
                 <div class="right"><p id="wallet-balance">--</p></div>
             </div>
-            <h3>Reload User</h3>
+            
             <div>
                 <div class="left"><label>Amount: </label></div>
                 <div class="right"><input id="wallet-amount" type="number"></div>
             </div>
+            <div>
+                <select id="wallet-option" style="width: 100%">
+                    <option value="reload">Top Up (Reload)</option>
+                    <option value="cashout">Cashout (G-Cash Only)</option>
+                </select>
+            </div>
+            
             <div class="profile-btns">
                 <button onclick="addBalance(this);"><i class="fa-solid fa-check"></i> Confirm</button>
                 <button onclick="closeWindow(document.getElementById('wallet_modal'))"><i class="fa-solid fa-xmark"></i> Close</button>
@@ -434,6 +442,21 @@
                 <div class="search_bar">
                     <input id="billing-filter" type="search" placeholder="Search 🔎">
                 </div>
+
+                <div class="search_bar" style="display:flex">
+                    <div class="graphSec px-2" style="margin: 20px">
+                        <h4 class="text-center py-3">Revenue</h4>
+                        <canvas style="width:300px; height:300px" id="billing-chart" width="300" height="300"></canvas>
+                        <h4 style="color: green" id="billing-total-revenue">Total Revenue: 0</h4>
+                    </div>
+                    <div class="graphSec px-2" style="margin: 20px">
+                        <h4 class="text-center py-3">Services</h4>
+                        <canvas style="width:300px; height:300px" id="service-chart" width="300" height="300"></canvas>
+                        <h4 style="color: green" id="billing-total-services">Service Demand: 0</h4>
+                    </div>
+                </div>
+
+                
                 
                 <!-- BOOKING REQUESTS -->
                 <table>
@@ -552,6 +575,7 @@
     <script defer src="~/js/notificationDashboard.js"></script>
     <script defer src="~/js/billingNotification.js"></script>
     <script defer src="~/js/walletDashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
     
 </body>
 </html>
