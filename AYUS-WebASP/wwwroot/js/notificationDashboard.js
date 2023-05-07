@@ -93,7 +93,8 @@ const updateCompletedTable = () => {
 			mechanic.innerHTML = `${mechanicData.personalInformation.Firstname} ${mechanicData.personalInformation.Lastname}`;
 
 			const date = document.createElement('td');
-			date.innerHTML = TimeEnd;
+			date.innerHTML = new Date(TimeEnd).toDateString();
+			date.title = new Date(TimeEnd).toTimeString();
 
 			const completed = document.createElement('td');
 			completed.innerHTML = 'DONE';
@@ -169,8 +170,9 @@ const openCompleteDetails = (Session) => {
 			const { DateOfTransaction, Remark, ServicePrice, ServiceName } = d.Info;
 
 			service.innerHTML = ServiceName;
-			date.innerHTML = DateOfTransaction;
+			date.innerHTML = new Date(DateOfTransaction).toDateString();
+			date.title = new Date(DateOfTransaction).toTimeString();
 			remark.innerHTML = Remark;
-			price.innerHTML = ServicePrice;
+			price.innerHTML = "P"+ServicePrice;
 		})
 }

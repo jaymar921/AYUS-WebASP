@@ -170,7 +170,7 @@ const updateServicePrice = () => {
     }).then(r => r.json())
         .then(d => {
             if (d.Status === 201)
-                alert('Service Price was updated to '+d.ServicePrice);
+                alert('Service Price was updated to P' + d.NewPrice);
             else
                 alert('Failed to update price');
         }).catch(e => alert('Failed to update price'));

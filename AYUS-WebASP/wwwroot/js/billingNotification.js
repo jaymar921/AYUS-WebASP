@@ -50,10 +50,11 @@ const updateTable = () => {
 			shop.innerHTML = mechanicData.accountStatus.Shop.ShopName;
 
 			const date = document.createElement('td');
-			date.innerHTML = bill.BillingDate;
+			date.innerHTML = new Date(bill.BillingDate).toDateString();
+			date.title = new Date(bill.BillingDate).toTimeString();
 
 			const fee = document.createElement('td');
-			fee.innerHTML = bill.ServiceFee;
+			fee.innerHTML = "P"+bill.ServiceFee;
 
 			const remark = document.createElement('td');
 			remark.innerHTML = bill.ServiceRemark;
